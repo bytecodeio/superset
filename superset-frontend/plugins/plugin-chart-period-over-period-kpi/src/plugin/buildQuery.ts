@@ -51,7 +51,7 @@ function getSinceUntil(
 
   let modTimeRange: string | null = timeRange;
 
-  if (timeRange === 'NO_TIME_RANGE' || timeRange === '_(NO_TIME_RANGE)'){
+  if (timeRange === 'NO_TIME_RANGE' || timeRange === '_(NO_TIME_RANGE)') {
     return [null, null];
   }
 
@@ -180,11 +180,11 @@ function getSinceUntil(
 }
 
 function calculatePrev(startDate: Moment | null, endDate: Moment | null, calcType: String) {
-  
-  if (!startDate || !endDate){
+
+  if (!startDate || !endDate) {
     return [null, null]
   }
-  
+
   const daysBetween = endDate.diff(startDate, 'days');
 
   let startDatePrev = moment();
@@ -220,48 +220,48 @@ export default function buildQuery(formData: QueryFormData) {
   ]);
 
 
-  const timeFilter: any = formData.adhoc_filters?.find(
+  const timeFilter = formData.adhoc_filters?.find(
     ({ operator }: { operator: string }) => operator === 'TEMPORAL_RANGE',
   );
 
-  const timeFilterIndex: any = formData.adhoc_filters?.findIndex(
+  const timeFilterIndex = formData.adhoc_filters?.findIndex(
     ({ operator }: { operator: string }) => operator === 'TEMPORAL_RANGE',
   );
 
   const [testSince, testUntil] = getSinceUntil(
-    timeFilter.comparator.toLowerCase(),
+    timeFilter?.comparator?.toLowerCase(),
   );
-  
+
   let formDataB: QueryFormData;
 
-  if (timeComparison!='c'){
+  if (timeComparison != 'c') {
 
-  const [prevStartDateMoment, prevEndDateMoment] = calculatePrev(
-    testSince,
-    testUntil,
-    timeComparison,
-  );
+    const [prevStartDateMoment, prevEndDateMoment] = calculatePrev(
+      testSince,
+      testUntil,
+      timeComparison,
+    );
 
     const queryBComparator = `${prevStartDateMoment?.format(
-    'YYYY-MM-DDTHH:mm:ss',
-  )} : ${prevEndDateMoment?.format('YYYY-MM-DDTHH:mm:ss')}`;
+      'YYYY-MM-DDTHH:mm:ss',
+    )} : ${prevEndDateMoment?.format('YYYY-MM-DDTHH:mm:ss')}`;
 
-  const queryBFilter = {
+    const queryBFilter = {
       ...timeFilter,
       comparator: queryBComparator.replace(/Z/g, '')
     }
 
-    const otherFilters = formData.adhoc_filters?.filter((_value: any, index: number) => timeFilterIndex !== index);
+    const otherFilters = formData.adhoc_filters?.filter((_value, index: number) => timeFilterIndex !== index);
     const queryBFilters = otherFilters ? [queryBFilter, ...otherFilters] : [queryBFilter];
-    
-    formDataB= {
+
+    formDataB = {
       ...formData,
       adhoc_filters: queryBFilters,
     }
 
   } else {
 
-    formDataB= {
+    formDataB = {
       ...formData,
       adhoc_filters: formData.adhoc_custom,
     }

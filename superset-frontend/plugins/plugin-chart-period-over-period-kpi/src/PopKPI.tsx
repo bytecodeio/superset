@@ -17,53 +17,42 @@
  * under the License.
  */
 import React, { useEffect, createRef } from 'react';
-import { 
-  styled,
-  } from '@superset-ui/core';
 import { PopKPIProps, PopKPIStylesProps } from './types';
 
-// The following Styles component is a <div> element, which has been styled using Emotion
-// For docs, visit https://emotion.sh/docs/styled
+const styles = (theme) => ({
+  fontFamily: 'inherit',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: `${theme.gridUnit * 4}px`,
+  borderRadius: `${theme.gridUnit * 2}px`,
+  height: `${theme.height}px`,
+  width: `${theme.width}px`,
+});
 
-// Theming variables are provided for your use via a ThemeProvider
-// imported from @superset-ui/core. For variables available, please visit
-// https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
+const BigValueContainerStyles = (theme) => ({
+  fontSize: `${theme.headerFontSize ? theme.headerFontSize : 60}px`,
+  fontWeight: `${theme.typography.weights.normal}`,
+  textAlign: 'center',
+});
 
-const Styles = styled.div<PopKPIStylesProps>`
+const TableContainer = {
+  width: '100%',
+  display: 'table',
+};
 
-  font-family: ${({ theme }) => theme.typography.families.sansSerif};
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: ${({ theme }) => theme.tdUnit * 4}px;
-  border-radius: ${({ theme }) => theme.tdUnit * 2}px;
-  height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
-`;
+const ComparisonContainer = {
+  display: 'table-row',
+};
 
-const BigValueContainer = styled.div`
-  font-size: ${props=> props.headerFontSize ? props.headerFontSize : 60}px;
-  font-weight: ${({ theme }) => theme.typography.weights.normal};
-  text-align: center;
-`;
-
-const TableContainer = styled.div`
-  width: 100%;
-  display: table;
-`
-
-const ComparisonContainer = styled.div`
-  display: table-row;
-`;
-
-const ComparisonValue = styled.div`
-  font-weight: ${({ theme }) => theme.typography.weights.light};
-  width: 33%;
-  display: table-cell;
-  font-size: ${props=> props.subheaderFontSize ? props.subheaderFontSize : 20}px;
-  text-align: center;
-`;
+const ComparisonValue = (theme) => ({
+  fontWeight: `${theme.typography.weights.light}`,
+  width: '33%',
+  display: 'table-cell',
+  fontSize: `${theme.subheaderFontSize ? theme.subheaderFontSize : 20}px`,
+  textAlign: 'center',
+});
 
 export default function PopKPI(props: PopKPIProps) {
   const {
@@ -79,27 +68,23 @@ export default function PopKPI(props: PopKPIProps) {
 
   const rootElem = createRef<HTMLDivElement>();
 
-  useEffect(() => {
-    const root = rootElem.current as HTMLElement;
-  });
-
   return (
-    <Styles
+    <div
+      style={{ ...styles }}
       ref={rootElem}
       boldText={props.boldText}
       headerFontSize={props.headerFontSize}
       height={height}
       width={width}
     >
-
-      <BigValueContainer headerFontSize={headerFontSize}>{bigNumber}</BigValueContainer>
-      <TableContainer>
-        <ComparisonContainer>
-          <ComparisonValue subheaderFontSize={subheaderFontSize}> #: {prevNumber}</ComparisonValue>
-          <ComparisonValue subheaderFontSize={subheaderFontSize}> Δ: {valueDifference}</ComparisonValue>
-          <ComparisonValue subheaderFontSize={subheaderFontSize}> %: {percentDifference}</ComparisonValue>
-        </ComparisonContainer>
-      </TableContainer>
-    </Styles>
+      <div style={{ ...BigValueContainerStyles }} headerFontSize={headerFontSize}>{bigNumber}</div>
+      <div style={{ ...TableContainer }}>
+        <div style={{ ...ComparisonContainer }}>
+          <div style={{ ...ComparisonValue }} subheaderFontSize={subheaderFontSize}> #: {prevNumber}</div>
+          <div style={{ ...ComparisonValue }} subheaderFontSize={subheaderFontSize}> Δ: {valueDifference}</div>
+          <div style={{ ...ComparisonValue }} subheaderFontSize={subheaderFontSize}> %: {percentDifference}</div>
+        </div>
+      </div>
+    </div>
   );
 }

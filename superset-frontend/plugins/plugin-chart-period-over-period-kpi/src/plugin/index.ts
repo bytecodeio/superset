@@ -35,7 +35,7 @@ export default class PopKPIPlugin extends ChartPlugin {
    */
   constructor() {
     const metadata = new ChartMetadata({
-      description: 'KPI viz for comparing multiple period',
+      description: t('KPI viz for comparing multiple period'),
       name: t('Period Over Period KPI'),
       thumbnail,
     });

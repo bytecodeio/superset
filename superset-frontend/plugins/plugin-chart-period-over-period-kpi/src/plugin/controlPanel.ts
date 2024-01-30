@@ -28,17 +28,7 @@ const config: ControlPanelConfig = {
       label: t('Query'),
       expanded: true,
       controlSetRows: [
-        [
-          {
-            name: 'metrics',
-            config: {
-              ...sharedControls.metrics,
-              // it's possible to add validators to controls if
-              // certain selections/types need to be enforced
-              validators: [validateNonEmpty],
-            },
-          },
-        ],
+        ['metrics'],
         ['adhoc_filters'],
         [
           {
@@ -48,11 +38,11 @@ const config: ControlPanelConfig = {
               label: t('Range for Comparison'),
               default: 'y',
               choices: [
-                ['y', 'Year'],
-                ['w', 'Week'],
-                ['m', 'Month'],
-                ['r', 'Range'],
-                ['c', 'Custom'],
+                ['y', t('Year')],
+                ['w', t('Week')],
+                ['m', t('Month')],
+                ['r', t('Range')],
+                ['c', t('Custom')],
               ],
             },
           },
@@ -76,7 +66,7 @@ const config: ControlPanelConfig = {
               ...sharedControls.adhoc_filters,
               label: t('FILTERS (Custom)'),
               description:
-                'This only applies when selecting the Range for Comparison Type- Custom',
+                t('This only applies when selecting the Range for Comparison Type- Custom'),
             },
           },
         ],

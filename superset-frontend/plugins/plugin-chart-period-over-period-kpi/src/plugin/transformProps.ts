@@ -66,7 +66,7 @@ export default function transformProps(chartProps: ChartProps) {
     boldText,
     headerFontSize,
     headerText,
-    metrics,
+    metric,
     yAxisFormat,
     currencyFormat,
     subheaderFontSize,
@@ -74,12 +74,12 @@ export default function transformProps(chartProps: ChartProps) {
   const dataA = queriesData[0].data as TimeseriesDataRecord[];
   const dataB = queriesData[1].data as TimeseriesDataRecord[];
   const data = dataA;
-  const metricName = getMetricLabel(metrics[0]);
+  const metricName = getMetricLabel(metric[0]);
   let bigNumber = data.length === 0 ? null : data[0][metricName];
   let prevNumber = dataB.length === 0 ? null : dataB[0][metricName];
 
   const numberFormatter = getValueFormatter(
-    metrics[0],
+    metric[0],
     currencyFormats,
     columnFormats,
     yAxisFormat,
@@ -103,7 +103,7 @@ export default function transformProps(chartProps: ChartProps) {
     ? (bigNumber - prevNumber) / Math.abs(prevNumber)
     : 0;
 
-  const compType= compTitles[formData.timeComparison]
+  const compType = compTitles[formData.timeComparison]
   bigNumber = numberFormatter(bigNumber);
   prevNumber = numberFormatter(prevNumber);
   valueDifference = numberFormatter(valueDifference);
@@ -113,8 +113,7 @@ export default function transformProps(chartProps: ChartProps) {
     width,
     height,
     data,
-    // and now your control data, manipulated as needed, and passed through as props!
-    metrics,
+    metric,
     metricName,
     bigNumber,
     prevNumber,

@@ -41,6 +41,8 @@ export default function Handlebars(props: HandlebarsProps) {
 
   const rootElem = createRef<HTMLDivElement>();
 
+
+
   return (
     <Styles ref={rootElem} height={height} width={width}>
       <HandlebarsViewer data={{ data }} templateSource={templateSource} />
